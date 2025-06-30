@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, Environment, Sphere, useTexture } from '@react-three/drei';
+import { OrbitControls, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
 import { OBJExporter } from 'three/examples/jsm/exporters/OBJExporter';
@@ -22,7 +22,7 @@ const Atom: React.FC<AtomProps> = ({
   radius = 1, 
   viewMode, 
   atomType = 'generic',
-  glowIntensity = 1 
+ 
 }) => {
   const meshRef = useRef<THREE.Mesh>(null);
   const glowRef = useRef<THREE.Mesh>(null);
@@ -175,7 +175,7 @@ const Bond: React.FC<BondProps> = ({
     return { midpoint, length, quaternion, bondCount: bondType === 'triple' ? 3 : bondType === 'double' ? 2 : 1 };
   }, [start, end, bondType]);
   
-  useFrame((state) => {
+  useFrame(() => {
     if (bondRef.current && viewMode === 'holographic') {
       bondRef.current.rotation.z += 0.01;
     }
@@ -392,7 +392,7 @@ const Scene: React.FC<SceneProps> = ({ selectedElement, viewMode, controlsRef, o
     
     let remainingElectrons = element.number;
 
-    electronShells.forEach((shell, shellIndex) => {
+    electronShells.forEach((shell) => {
       if (remainingElectrons <= 0) return;
       
       const electronsInShell = Math.min(remainingElectrons, shell.maxElectrons);
@@ -520,7 +520,6 @@ interface MoleculeViewerProps {
 
 const MoleculeViewer: React.FC<MoleculeViewerProps> = ({ selectedElement }) => {
   const [viewMode, setViewMode] = useState<ViewMode>('ball-and-stick');
-  const [isDark, setIsDark] = useState(true);
   const [showExportMenu, setShowExportMenu] = useState(false);
   const controlsRef = useRef<any>(null);
   const threeSceneRef = useRef<THREE.Scene | null>(null);

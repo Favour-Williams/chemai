@@ -311,7 +311,6 @@ class ElevenLabsService {
 
   // MODIFIED: This method now uses the LLMService to generate text
   public async generateElementConversation(
-    elementSymbol: string,
     elementName: string,
     userQuery: string
   ): Promise<string> {

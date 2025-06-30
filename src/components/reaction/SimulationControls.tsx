@@ -7,7 +7,7 @@ import {
   Minimize2,
   ThermometerSun,
   Gauge,
-  View,
+  
   RotateCcw
 } from 'lucide-react';
 import { useThemeStore } from '../../store/themeStore';

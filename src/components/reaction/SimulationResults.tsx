@@ -3,7 +3,7 @@ import {
   Download,
   Share2,
   AlertTriangle,
-  Info,
+  
   ChevronRight,
   ArrowUpDown,
   Beaker

@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import { lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
@@ -6,14 +6,14 @@ import Dashboard from './pages/Dashboard';
 import { useAuthStore } from './store/authStore';
 import ErrorBoundary from './components/common/ErrorBoundary';
 import LazyWrapper from './components/common/LazyWrapper';
-import LoadingSpinner from './components/common/LoadingSpinner';
+
 import ToastContainer from './components/common/ToastContainer';
 import ThemeProvider from './components/ThemeProvider';
 
 // Lazy load heavy components
 const PeriodicTable = lazy(() => import('./pages/PeriodicTable'));
 const PeriodicTableElement = lazy(() => import('./pages/PeriodicTableElement'));
-const ReactionBuilder = lazy(() => import('./pages/ReactionBuilder'));
+
 const Settings = lazy(() => import('./pages/Settings'));
 
 function App() {

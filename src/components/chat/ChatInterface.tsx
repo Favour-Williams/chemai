@@ -26,7 +26,6 @@ interface ChatConversation {
   messages: ChatMessage[];
 }
 
-const EMOJI_REACTIONS = ['👍', '❤️', '😊', '🤔', '👏', '🔬'];
 
 const ChatInterface: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
   const [inputText, setInputText] = useState('');
@@ -41,9 +40,7 @@ const ChatInterface: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
   const [conversations, setConversations] = useState<ChatConversation[]>([]);
   const [activeConversation, setActiveConversation] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [voiceEnabled, setVoiceEnabled] = useState(true);
-  const [llmEnabled, setLlmEnabled] = useState(true);
-  
+  const [voiceEnabled, setVoiceEnabled] = useState(true);  
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { success, error, info } = useToast();
   

@@ -68,7 +68,7 @@ const defaultSettings: SettingsState = {
 
 export const useSettingsStore = create<SettingsStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       ...defaultSettings,
       
       updateTheme: (theme) => set((state) => ({

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 // import { useThemeStore } from '../store/themeStore'; // Remove or comment out this line
 import { useSettingsStore } from '../store/settingsStore'; // Import useSettingsStore
-import { Search, X, Play, Eye, Atom, Beaker, Mic, MicOff, Volume2, VolumeX, Headphones } from 'lucide-react';
+import { Search, X, Play, Mic, MicOff, VolumeX, Headphones } from 'lucide-react';
 import MoleculeViewer from '../components/MoleculeViewer';
 import { elevenLabsService } from '../services/elevenLabsService';
 

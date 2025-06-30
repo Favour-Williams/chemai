@@ -5,7 +5,7 @@ import { supabase } from '../lib/supabase';
 
 export const useAuthStore = create<AuthStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       user: null,
       isAuthenticated: false,
       
@@ -204,7 +204,7 @@ export const useAuthStore = create<AuthStore>()(
 supabase.auth.onAuthStateChange(async (event, session) => {
   console.log('Auth state changed:', event, session?.user?.email);
   
-  const { user, isAuthenticated } = useAuthStore.getState();
+  const { isAuthenticated } = useAuthStore.getState();
   
   if (session?.user && !isAuthenticated) {
     // User is signed in but our store doesn't know about it

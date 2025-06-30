@@ -1,5 +1,5 @@
 import React from 'react';
-import { Plus, Beaker, ArrowRight } from 'lucide-react';
+import { Plus, Beaker } from 'lucide-react';
 import { useThemeStore } from '../../store/themeStore';
 import { Link } from 'react-router-dom';
 

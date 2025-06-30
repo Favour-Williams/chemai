@@ -10,11 +10,8 @@ import {
 } from '@dnd-kit/core';
 import { 
   Search, 
-  Plus, 
-  Minus, 
   ArrowRight, 
-  Save, 
-  Trash2, 
+  Save,  
   History, 
   Beaker,
   Zap,
@@ -569,7 +566,7 @@ Format your response clearly with numbered sections.`;
     const name = reactionName.trim() || formatEquation();
     
     try {
-      const { data, error: saveError } = await supabase
+      const {error: saveError } = await supabase
         .from('reactions')
         .insert([{
           name,

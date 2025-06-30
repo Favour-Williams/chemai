@@ -1,24 +1,21 @@
 import React, { useState } from 'react';
 import { 
-  User, 
+   
   Palette, 
   Globe, 
   Bell, 
   Eye, 
   Shield, 
-  Trash2, 
+   
   Save,
   Moon,
   Sun,
   Monitor,
-  Volume2,
-  VolumeX,
+
   Smartphone,
   Mail,
-  MessageSquare,
   AlertTriangle,
   Check,
-  X
 } from 'lucide-react';
 import { useSettingsStore } from '../store/settingsStore';
 import { useAuthStore } from '../store/authStore';

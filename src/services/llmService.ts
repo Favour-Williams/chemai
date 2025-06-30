@@ -1,4 +1,4 @@
-import { providers, parseStreamingResponse, OpenRouterProvider, GroqProvider } from './llmProviders';
+import { providers, OpenRouterProvider, GroqProvider } from './llmProviders';
 
 interface LLMConfig {
   provider: 'openrouter' | 'groq' | 'openai' | 'anthropic' | 'cohere' | 'huggingface';

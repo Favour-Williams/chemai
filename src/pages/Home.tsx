@@ -7,9 +7,7 @@ import { useSettingsStore } from '../store/settingsStore';
 
 const Home: React.FC = () => {
   const { theme } = useSettingsStore();
-  const isDark = theme.mode === 'dark' || 
-    (theme.mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-  const isSystem = theme.mode === 'system';
+   const isSystem = theme.mode === 'system';
   
   return (
     <main>

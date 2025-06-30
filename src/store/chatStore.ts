@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { ChatStore, ChatMessage, ChatConversation } from '../types';
+import { ChatStore, ChatConversation } from '../types';
 
 export const useChatStore = create<ChatStore>((set, get) => ({
   conversations: [

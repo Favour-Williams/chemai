@@ -20,7 +20,7 @@ interface ChatContext {
 
 class ChatService {
   private cache = new Map<string, ChatResponse>();
-  private readonly CACHE_DURATION = 60 * 60 * 1000; // 1 hour
+  
   private llmService: LLMService | null;
   private conversationHistory = new Map<string, Array<{role: 'user' | 'assistant', content: string}>>();
 

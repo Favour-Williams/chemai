@@ -4,12 +4,9 @@ import { useSettingsStore } from '../store/settingsStore';
 import { 
   Beaker, 
   MessageSquare, 
-  Video, 
   AlertTriangle, 
   Clock, 
   Search,
-  Star,
-  TrendingUp
 } from 'lucide-react';
 import AnimatedCard from '../components/common/AnimatedCard';
 import SkeletonLoader from '../components/common/SkeletonLoader';

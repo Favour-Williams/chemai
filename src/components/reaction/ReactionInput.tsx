@@ -1,21 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
   DndContext, 
   DragEndEvent,
   DragOverlay,
-  useDraggable,
-  useDroppable,
+ 
   DragStartEvent,
   closestCenter
 } from '@dnd-kit/core';
 import { 
   arrayMove,
-  SortableContext,
-  useSortable,
-  verticalListSortingStrategy
 } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { Plus, ArrowRight, Trash2, Star, History, Save, RotateCcw } from 'lucide-react';
+
+import { RotateCcw } from 'lucide-react';
 import { useThemeStore } from '../../store/themeStore';
 
 interface Element {
