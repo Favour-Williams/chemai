@@ -1,0 +1,51 @@
+{
+  "safetyData": [
+    {
+      "elementSymbol": "H",
+      "hazardLevel": "high",
+      "hazardTypes": ["flammable", "explosive"],
+      "precautions": [
+        "Store in well-ventilated area",
+        "Keep away from ignition sources",
+        "Use explosion-proof equipment",
+        "Ground all equipment"
+      ],
+      "firstAid": {
+        "inhalation": "Move to fresh air immediately. If breathing is difficult, give oxygen.",
+        "skinContact": "Generally not applicable for gas, but if liquid contact occurs, treat for frostbite.",
+        "eyeContact": "Flush with water for 15 minutes if liquid contact occurs."
+      },
+      "storage": "Store in cool, dry, well-ventilated area away from incompatible materials.",
+      "disposal": "Allow gas to escape slowly in well-ventilated area or burn off safely.",
+      "incompatibleWith": ["oxidizers", "halogens", "nitrous oxide"],
+      "emergencyProcedures": [
+        "Evacuate area if large leak occurs",
+        "Eliminate ignition sources",
+        "Use water spray to disperse vapors"
+      ]
+    },
+    {
+      "elementSymbol": "O",
+      "hazardLevel": "medium",
+      "hazardTypes": ["oxidizer", "supports combustion"],
+      "precautions": [
+        "Keep away from combustible materials",
+        "Use only with compatible equipment",
+        "Ensure proper ventilation"
+      ],
+      "firstAid": {
+        "inhalation": "Move to fresh air. High concentrations may cause oxygen toxicity.",
+        "skinContact": "Generally safe, but liquid oxygen can cause frostbite.",
+        "eyeContact": "Flush with water if liquid contact occurs."
+      },
+      "storage": "Store in cool, dry area away from combustible materials.",
+      "disposal": "Allow gas to escape slowly in well-ventilated area.",
+      "incompatibleWith": ["flammable materials", "organic compounds", "oils"],
+      "emergencyProcedures": [
+        "Remove combustible materials from area",
+        "Increase ventilation",
+        "Monitor oxygen levels"
+      ]
+    }
+  ]
+}

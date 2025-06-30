@@ -1,0 +1,364 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Custom Properties for Dynamic Theming */
+:root {
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-primary-dark: #1d4ed8;
+  --color-primary-light: #93c5fd;
+  --font-size-base: 16px;
+}
+
+/* Dynamic Primary Color Classes */
+.bg-primary {
+  background-color: var(--color-primary) !important;
+}
+
+.bg-primary-hover:hover {
+  background-color: var(--color-primary-hover) !important;
+}
+
+.text-primary {
+  color: var(--color-primary) !important;
+}
+
+.border-primary {
+  border-color: var(--color-primary) !important;
+}
+
+.ring-primary {
+  --tw-ring-color: var(--color-primary) !important;
+}
+
+/* Override Tailwind's default blue colors with primary */
+.bg-blue-500 {
+  background-color: var(--color-primary) !important;
+}
+
+.bg-blue-600 {
+  background-color: var(--color-primary) !important;
+}
+
+.bg-blue-700 {
+  background-color: var(--color-primary-hover) !important;
+}
+
+.hover\:bg-blue-600:hover {
+  background-color: var(--color-primary-hover) !important;
+}
+
+.hover\:bg-blue-700:hover {
+  background-color: var(--color-primary-dark) !important;
+}
+
+.text-blue-500 {
+  color: var(--color-primary) !important;
+}
+
+.text-blue-600 {
+  color: var(--color-primary) !important;
+}
+
+.text-blue-300 {
+  color: var(--color-primary-light) !important;
+}
+
+.text-blue-400 {
+  color: var(--color-primary-light) !important;
+}
+
+.border-blue-500 {
+  border-color: var(--color-primary) !important;
+}
+
+.border-blue-600 {
+  border-color: var(--color-primary) !important;
+}
+
+.focus\:ring-blue-500:focus {
+  --tw-ring-color: var(--color-primary) !important;
+}
+
+.focus\:ring-blue-400:focus {
+  --tw-ring-color: var(--color-primary) !important;
+}
+
+.focus\:border-blue-500:focus {
+  border-color: var(--color-primary) !important;
+}
+
+.focus\:border-blue-400:focus {
+  border-color: var(--color-primary) !important;
+}
+
+/* Gradient backgrounds */
+.bg-gradient-to-r.from-blue-500 {
+  background-image: linear-gradient(to right, var(--color-primary), var(--color-primary-dark)) !important;
+}
+
+.from-blue-500.to-purple-600 {
+  background-image: linear-gradient(to right, var(--color-primary), #9333ea) !important;
+}
+
+/* Font Size Scaling */
+.text-dynamic-sm {
+  font-size: calc(var(--font-size-base) * 0.875);
+}
+
+.text-dynamic-base {
+  font-size: var(--font-size-base);
+}
+
+.text-dynamic-lg {
+  font-size: calc(var(--font-size-base) * 1.125);
+}
+
+.text-dynamic-xl {
+  font-size: calc(var(--font-size-base) * 1.25);
+}
+
+/* High Contrast Mode */
+.high-contrast {
+  --tw-bg-opacity: 1;
+  --tw-text-opacity: 1;
+}
+
+.high-contrast .bg-gray-800 {
+  background-color: #000000;
+}
+
+.high-contrast .bg-gray-700 {
+  background-color: #1a1a1a;
+}
+
+.high-contrast .text-gray-300 {
+  color: #ffffff;
+}
+
+.high-contrast .border-gray-600 {
+  border-color: #ffffff;
+}
+
+.high-contrast button,
+.high-contrast input,
+.high-contrast select {
+  border-width: 2px;
+}
+
+/* Reduced Motion */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Screen Reader Mode */
+.screen-reader-mode {
+  --focus-ring-width: 3px;
+}
+
+.screen-reader-mode *:focus {
+  outline: var(--focus-ring-width) solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.screen-reader-mode button,
+.screen-reader-mode input,
+.screen-reader-mode select,
+.screen-reader-mode textarea {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Layout Density */
+.layout-compact {
+  --spacing-scale: 0.75;
+}
+
+.layout-compact .p-4 {
+  padding: calc(1rem * var(--spacing-scale, 1));
+}
+
+.layout-compact .p-6 {
+  padding: calc(1.5rem * var(--spacing-scale, 1));
+}
+
+.layout-compact .p-8 {
+  padding: calc(2rem * var(--spacing-scale, 1));
+}
+
+.layout-compact .space-y-4 > * + * {
+  margin-top: calc(1rem * var(--spacing-scale, 1));
+}
+
+.layout-compact .space-y-6 > * + * {
+  margin-top: calc(1.5rem * var(--spacing-scale, 1));
+}
+
+/* Custom animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.animate-fade-in-delay {
+  animation: fade-in 0.6s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Focus styles for accessibility */
+.focus-visible:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .bg-gray-800 {
+    background-color: #000000;
+  }
+  
+  .bg-gray-700 {
+    background-color: #1a1a1a;
+  }
+  
+  .text-gray-300 {
+    color: #ffffff;
+  }
+  
+  .border-gray-600 {
+    border-color: #ffffff;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.7);
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(75, 85, 99, 0.5);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(75, 85, 99, 0.7);
+}
+
+/* Loading skeleton animation */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.dark .skeleton {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background-size: 200% 100%;
+}
+
+/* Smooth transitions for theme switching */
+* {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "chatHistory": [
+    {
+      "id": "chat-001",
+      "userId": "550e8400-e29b-41d4-a716-446655440000",
+      "title": "Chemistry Basics",
+      "messages": [
+        {
+          "id": "msg-001",
+          "userId": "550e8400-e29b-41d4-a716-446655440000",
+          "message": "What is the atomic number of carbon?",
+          "response": "The atomic number of carbon is 6. This means carbon atoms have 6 protons in their nucleus. Carbon is a nonmetal element with the symbol C and is essential for all known life forms.",
+          "timestamp": "2024-01-01T10:00:00Z",
+          "context": {
+            "element": "C",
+            "topic": "atomic structure"
+          },
+          "rating": 5
+        }
+      ],
+      "createdAt": "2024-01-01T10:00:00Z",
+      "updatedAt": "2024-01-01T10:00:00Z",
+      "isActive": true
+    }
+  ]
+}

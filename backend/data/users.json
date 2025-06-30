@@ -1,0 +1,48 @@
+{
+  "users": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "email": "admin@chemai.com",
+      "password": "$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj/RK.s5uO.6",
+      "name": "Admin User",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z",
+      "preferences": {
+        "theme": "dark",
+        "language": "en",
+        "primaryColor": "blue",
+        "fontSize": "medium",
+        "notifications": {
+          "email": true,
+          "push": true,
+          "reactions": true,
+          "updates": false,
+          "marketing": false
+        }
+      },
+      "isActive": true,
+      "lastLogin": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440001",
+      "email": "demo@chemai.com",
+      "password": "$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj/RK.s5uO.6",
+      "name": "Demo User",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "preferences": {
+        "theme": "light",
+        "language": "en",
+        "primaryColor": "purple",
+        "fontSize": "medium",
+        "notifications": {
+          "email": false,
+          "push": true,
+          "reactions": true,
+          "updates": true,
+          "marketing": false
+        }
+      },
+      "isActive": true
+    }
+  ]
+}

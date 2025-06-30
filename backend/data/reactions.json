@@ -1,0 +1,68 @@
+{
+  "reactions": [
+    {
+      "id": "reaction-001",
+      "name": "Water Formation",
+      "equation": "2H₂ + O₂ → 2H₂O",
+      "reactants": ["H2", "O2"],
+      "products": ["H2O"],
+      "reactionType": "synthesis",
+      "energyChange": -571.6,
+      "temperature": 298,
+      "pressure": 1,
+      "safetyWarnings": [
+        "Highly exothermic reaction",
+        "Risk of explosion with hydrogen gas",
+        "Use proper ventilation"
+      ],
+      "description": "The synthesis of water from hydrogen and oxygen gases. This is a highly exothermic reaction that releases significant energy.",
+      "mechanism": "The reaction proceeds through a radical chain mechanism initiated by a spark or catalyst.",
+      "yieldPercentage": 99.5,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "isPublic": true,
+      "tags": ["synthesis", "combustion", "water", "hydrogen", "oxygen"]
+    },
+    {
+      "id": "reaction-002",
+      "name": "Methane Combustion",
+      "equation": "CH₄ + 2O₂ → CO₂ + 2H₂O",
+      "reactants": ["CH4", "O2"],
+      "products": ["CO2", "H2O"],
+      "reactionType": "combustion",
+      "energyChange": -890.3,
+      "temperature": 298,
+      "pressure": 1,
+      "safetyWarnings": [
+        "Highly flammable gas",
+        "Ensure adequate ventilation",
+        "Risk of carbon monoxide formation in incomplete combustion"
+      ],
+      "description": "Complete combustion of methane in oxygen, producing carbon dioxide and water vapor.",
+      "yieldPercentage": 98.2,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "isPublic": true,
+      "tags": ["combustion", "methane", "natural gas", "energy"]
+    },
+    {
+      "id": "reaction-003",
+      "name": "Sodium Chloride Formation",
+      "equation": "2Na + Cl₂ → 2NaCl",
+      "reactants": ["Na", "Cl2"],
+      "products": ["NaCl"],
+      "reactionType": "synthesis",
+      "energyChange": -822.0,
+      "temperature": 298,
+      "pressure": 1,
+      "safetyWarnings": [
+        "Sodium is highly reactive with water",
+        "Chlorine gas is toxic",
+        "Violent reaction - use protective equipment"
+      ],
+      "description": "Formation of table salt from sodium metal and chlorine gas.",
+      "yieldPercentage": 95.8,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "isPublic": true,
+      "tags": ["synthesis", "ionic", "salt", "sodium", "chlorine"]
+    }
+  ]
+}
