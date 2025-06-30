@@ -1,6 +1,5 @@
 import React from 'react';
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
-import { useThemeStore } from '../../store/themeStore';
 
 interface AnimatedCardProps {
   children: React.ReactNode;
@@ -21,7 +20,7 @@ const AnimatedCard: React.FC<AnimatedCardProps> = ({
     threshold: 0.1,
     triggerOnce: true
   });
-  const isDark = useThemeStore((state) => state.isDark);
+  
 
   const getAnimationClasses = () => {
     const baseClasses = 'transition-all duration-700 ease-out';
@@ -52,7 +51,7 @@ const AnimatedCard: React.FC<AnimatedCardProps> = ({
 
   return (
     <div
-      ref={ref}
+      ref={ref as React.RefObject<HTMLDivElement>}
       className={`
         ${getAnimationClasses()}
         ${hoverClasses}

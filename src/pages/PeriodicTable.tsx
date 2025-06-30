@@ -933,7 +933,9 @@ Format your response clearly with numbered sections.`;
                       </div>
                       <div className="flex space-x-2">
                         {savedReaction.safetyWarnings && savedReaction.safetyWarnings.length > 0 && (
-                          <AlertTriangle className="h-5 w-5 text-yellow-500" title="Has safety warnings" />
+                          <span title="Has safety warnings">
+                            <AlertTriangle className="h-5 w-5 text-yellow-500" />
+                          </span>
                         )}
                       </div>
                     </div>

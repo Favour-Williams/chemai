@@ -1,37 +1,47 @@
 import React, { useState, useMemo } from 'react';
-import { Plus, X, Beaker, Search } from 'lucide-react';
+import { X, Beaker, Search } from 'lucide-react';
 import { useThemeStore } from '../../store/themeStore';
 import { Link } from 'react-router-dom';
+
+// FIX 1: Define the single source of truth for colors and categories.
+const categoryColors = {
+  'alkali-metal': 'bg-red-400',
+  'alkaline-earth': 'bg-orange-400',
+  'transition-metal': 'bg-yellow-400',
+  'post-transition': 'bg-green-400',
+  'metalloid': 'bg-teal-400',
+  'nonmetal': 'bg-blue-400',
+  'halogen': 'bg-purple-400',
+  'noble-gas': 'bg-pink-400',
+  'lanthanide': 'bg-indigo-400',
+  'actinide': 'bg-rose-400',
+};
+
+// FIX 2: Create a specific type from the keys of the `categoryColors` object.
+type ElementCategory = keyof typeof categoryColors;
 
 interface Element {
   symbol: string;
   name: string;
   atomicNumber: number;
-  category: string;
+  // FIX 3: Use the specific `ElementCategory` type instead of a generic `string`.
+  category: ElementCategory;
   group?: number;
   period: number;
 }
 
 const allElements: Element[] = [
+  // This data now benefits from type-checking. If you misspelled a category,
+  // TypeScript would give you an error here!
   { symbol: 'H', name: 'Hydrogen', atomicNumber: 1, category: 'nonmetal', group: 1, period: 1 },
   { symbol: 'He', name: 'Helium', atomicNumber: 2, category: 'noble-gas', group: 18, period: 1 },
-  // ... (all 118 elements)
+  // ... (the rest of your elements)
 ];
 
-const getCategoryColor = (category: string) => {
-  const colors = {
-    'alkali-metal': 'bg-red-400',
-    'alkaline-earth': 'bg-orange-400',
-    'transition-metal': 'bg-yellow-400',
-    'post-transition': 'bg-green-400',
-    'metalloid': 'bg-teal-400',
-    'nonmetal': 'bg-blue-400',
-    'halogen': 'bg-purple-400',
-    'noble-gas': 'bg-pink-400',
-    'lanthanide': 'bg-indigo-400',
-    'actinide': 'bg-rose-400'
-  };
-  return colors[category] || 'bg-gray-400';
+// FIX 4: Update the function to accept the specific type.
+const getCategoryColor = (category: ElementCategory) => {
+  // The error is now gone because TypeScript knows `category` will always be a valid key.
+  return categoryColors[category] || 'bg-gray-400';
 };
 
 const FloatingReactionButton: React.FC = () => {
@@ -68,9 +78,10 @@ const FloatingReactionButton: React.FC = () => {
   };
 
   const renderPeriodicTable = () => {
-    const tableElements = Array.from({ length: 10 }, () => Array(18).fill(null));
+    const tableElements: (Element | null)[][] = Array.from({ length: 10 }, () => Array(18).fill(null));
     
-    filteredElements.forEach(element => {
+    // We use allElements to position everything, so they don't disappear on search
+    allElements.forEach(element => {
       const { row, col } = getElementPosition(element);
       if (row <= 9 && col <= 18) {
         tableElements[row - 1][col - 1] = element;
@@ -78,39 +89,37 @@ const FloatingReactionButton: React.FC = () => {
     });
 
     return (
-      <div className="grid grid-cols-18 gap-1 text-xs">
-        {tableElements.map((row, rowIndex) =>
-          row.map((element, colIndex) => {
-            if (!element) {
-              return <div key={`${rowIndex}-${colIndex}`} className="w-8 h-8" />;
-            }
-            
-            const isSelected = selectedElements.includes(element.symbol);
-            const isFiltered = searchTerm && !filteredElements.includes(element);
-            
-            return (
-              <button
-                key={element.symbol}
-                onClick={() => toggleElement(element.symbol)}
-                className={`
-                  w-8 h-8 rounded text-center transition-all duration-200 border
-                  ${isSelected 
-                    ? 'ring-2 ring-blue-500 scale-110' 
-                    : 'hover:scale-105'
-                  }
-                  ${isFiltered ? 'opacity-30' : 'opacity-100'}
-                  ${getCategoryColor(element.category)}
-                  text-black font-bold text-xs
-                  flex flex-col items-center justify-center
-                `}
-                title={`${element.name} (${element.atomicNumber})`}
-              >
-                <div className="text-xs leading-none">{element.atomicNumber}</div>
-                <div className="text-sm font-bold leading-none">{element.symbol}</div>
-              </button>
-            );
-          })
-        )}
+      <div className="grid grid-cols-18 gap-1 text-xs" style={{ gridTemplateColumns: 'repeat(18, minmax(0, 1fr))' }}>
+        {tableElements.flat().map((element, index) => {
+          if (!element) {
+            return <div key={`empty-${index}`} className="w-8 h-8" />;
+          }
+          
+          const isSelected = selectedElements.includes(element.symbol);
+          const isFilteredOut = searchTerm && !filteredElements.includes(element);
+          
+          return (
+            <button
+              key={element.symbol}
+              onClick={() => toggleElement(element.symbol)}
+              className={`
+                w-8 h-8 rounded text-center transition-all duration-200 border
+                ${isSelected 
+                  ? 'ring-2 ring-blue-500 scale-110' 
+                  : 'hover:scale-105'
+                }
+                ${isFilteredOut ? 'opacity-30' : 'opacity-100'}
+                ${getCategoryColor(element.category)}
+                text-black font-bold text-xs
+                flex flex-col items-center justify-center
+              `}
+              title={`${element.name} (${element.atomicNumber})`}
+            >
+              <div className="text-xs leading-none">{element.atomicNumber}</div>
+              <div className="text-sm font-bold leading-none">{element.symbol}</div>
+            </button>
+          );
+        })}
       </div>
     );
   };
@@ -120,13 +129,15 @@ const FloatingReactionButton: React.FC = () => {
       {isExpanded && (
         <div 
           className={`
-            absolute bottom-16 right-0 p-4 rounded-lg shadow-lg w-96 max-h-96 overflow-y-auto
-            ${isDark ? 'bg-gray-800' : 'bg-white'}
+            absolute bottom-20 right-0 p-4 rounded-lg shadow-xl w-[350px]
+            ${isDark ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}
+            transition-all duration-300 ease-in-out transform origin-bottom-right
+            ${isExpanded ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'}
           `}
         >
           <div className="flex justify-between items-center mb-4">
-            <h3 className={`font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
-              Periodic Table
+            <h3 className="font-medium">
+              Select Elements
             </h3>
             <button
               onClick={() => setIsExpanded(false)}
@@ -146,34 +157,37 @@ const FloatingReactionButton: React.FC = () => {
               className={`
                 w-full pl-10 pr-4 py-2 rounded-lg border
                 ${isDark 
-                  ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
-                  : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
+                  ? 'bg-gray-700 border-gray-600 placeholder-gray-400' 
+                  : 'bg-white border-gray-300 placeholder-gray-500'
                 }
                 focus:outline-none focus:ring-2 focus:ring-blue-500
               `}
             />
           </div>
 
-          {renderPeriodicTable()}
+          <div className="overflow-x-auto pb-2">
+            {renderPeriodicTable()}
+          </div>
           
           {selectedElements.length > 0 && (
             <div className="mt-4">
-              <div className="flex flex-wrap gap-1 mb-2">
+              <div className="flex flex-wrap gap-1 mb-2 text-left">
                 {selectedElements.map(symbol => (
                   <span
                     key={symbol}
-                    className="px-2 py-1 bg-blue-500 text-white rounded text-xs"
+                    className="px-2 py-1 bg-blue-600 text-white rounded text-xs font-semibold"
                   >
                     {symbol}
                   </span>
                 ))}
               </div>
               <Link
-                to={`/reaction/new?elements=${selectedElements.join(',')}`}
-                className="w-full py-2 px-4 bg-blue-500 text-white rounded-lg flex items-center justify-center gap-2 hover:bg-blue-600 transition-colors"
+                to={`/reaction-builder?elements=${selectedElements.join(',')}`}
+                onClick={() => setIsExpanded(false)}
+                className="w-full mt-2 py-2 px-4 bg-green-500 text-white rounded-lg flex items-center justify-center gap-2 hover:bg-green-600 transition-colors"
               >
                 <Beaker className="h-4 w-4" />
-                Create Reaction
+                Build Reaction ({selectedElements.length})
               </Link>
             </div>
           )}
@@ -182,15 +196,18 @@ const FloatingReactionButton: React.FC = () => {
       
       <button
         onClick={() => setIsExpanded(!isExpanded)}
+        title={isExpanded ? "Close" : "Open Periodic Table"}
         className={`
           p-4 rounded-full shadow-lg flex items-center justify-center
           ${isDark ? 'bg-blue-500 hover:bg-blue-600' : 'bg-blue-600 hover:bg-blue-700'}
-          text-white transition-colors relative
+          text-white transition-all duration-300 relative
         `}
       >
-        {isExpanded ? <X className="h-6 w-6" /> : <Plus className="h-6 w-6" />}
-        {selectedElements.length > 0 && (
-          <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-6 h-6 rounded-full flex items-center justify-center">
+        <span className={`transform transition-transform duration-300 ${isExpanded ? 'rotate-90' : 'rotate-0'}`}>
+          {isExpanded ? <X className="h-6 w-6" /> : <Beaker className="h-6 w-6" />}
+        </span>
+        {selectedElements.length > 0 && !isExpanded && (
+          <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-6 h-6 rounded-full flex items-center justify-center border-2 border-white dark:border-gray-800">
             {selectedElements.length}
           </div>
         )}

@@ -72,11 +72,17 @@ class ChatService {
         finalConversationId = newConversation.id;
       }
 
+      // FIX 1: Add a check to ensure finalConversationId is a string.
+      // This satisfies TypeScript's type checker and acts as a runtime safeguard.
+      if (!finalConversationId) {
+        throw new Error('Failed to establish a conversation ID.');
+      }
+
       // Save message to database
       const { data: savedMessage, error: messageError } = await supabase
         .from('chat_messages')
         .insert([{
-          conversation_id: finalConversationId,
+          conversation_id: finalConversationId, // Now TypeScript knows this is a string
           user_id: user.id,
           message: message.trim(),
           response: aiResponse.response,
@@ -95,10 +101,12 @@ class ChatService {
         .eq('id', finalConversationId);
 
       // Update conversation history for context
+      // Because of the check above, finalConversationId is guaranteed to be a string here.
       this.updateConversationHistory(finalConversationId, message, aiResponse.response);
 
       return {
         response: aiResponse.response,
+        // The check also guarantees finalConversationId is a string for the return type.
         conversationId: finalConversationId,
         messageId: savedMessage.id,
         usage: aiResponse.usage
@@ -335,7 +343,12 @@ class ChatService {
     // Simple cache cleanup - remove old entries periodically
     if (this.cache.size > 100) {
       const firstKey = this.cache.keys().next().value;
-      this.cache.delete(firstKey);
+      // FIX 2: Check if firstKey is defined before using it.
+      // The iterator's .value can be `undefined` if the map is empty,
+      // and .delete() expects a string key.
+      if (firstKey) {
+        this.cache.delete(firstKey);
+      }
     }
   }
 

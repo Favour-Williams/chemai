@@ -2,17 +2,21 @@ import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Environment } from '@react-three/drei';
 import * as THREE from 'three';
-import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
-import { OBJExporter } from 'three/examples/jsm/exporters/OBJExporter';
+// FIX: Corrected import paths for Three.js addon modules. Note the '.js' extension.
+import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
+import { OBJExporter } from 'three/addons/exporters/OBJExporter.js';
 
 type ViewMode = 'ball-and-stick' | 'space-filling' | 'wireframe' | 'transparent' | 'holographic';
+
+// FIX: Defined a specific type for atom types for better type safety.
+type AtomType = 'generic' | 'nucleus' | 'electron' | 'oxygen' | 'hydrogen';
 
 interface AtomProps {
   position: [number, number, number];
   color: string;
   radius?: number;
   viewMode: ViewMode;
-  atomType?: string;
+  atomType?: AtomType;
   glowIntensity?: number;
 }
 
@@ -321,6 +325,32 @@ interface SceneProps {
   onSceneReady?: (scene: THREE.Scene) => void;
 }
 
+// FIX: Added explicit types for the data structures returned by getAtomicStructure
+interface AtomData {
+  position: [number, number, number];
+  color: string;
+  radius: number;
+  atomType: AtomType;
+}
+
+interface BondData {
+  start: [number, number, number];
+  end: [number, number, number];
+  bondType: 'single' | 'double' | 'triple';
+}
+
+interface OrbitalData {
+  radius: number;
+  color: string;
+  electronCount: number;
+}
+
+interface StructureData {
+  atoms: AtomData[];
+  bonds: BondData[];
+  orbitals: OrbitalData[];
+}
+
 const Scene: React.FC<SceneProps> = ({ selectedElement, viewMode, controlsRef, onSceneReady }) => {
   const { camera, scene } = useThree();
   
@@ -331,56 +361,35 @@ const Scene: React.FC<SceneProps> = ({ selectedElement, viewMode, controlsRef, o
     }
   }, [camera, scene, onSceneReady]);
 
-  const getAtomicStructure = (element: any, viewMode: ViewMode) => {
+  // FIX: Added a return type annotation to the function for type safety.
+  const getAtomicStructure = (element: any, viewMode: ViewMode): StructureData => {
     const isSpaceFilling = viewMode === 'space-filling';
     
     if (!element) {
       return {
         atoms: [
-          { 
-            position: [0, 0, 0] as [number, number, number], 
-            color: '#ff4757', 
-            radius: isSpaceFilling ? 1.4 : 0.9,
-            atomType: 'oxygen'
-          },
-          { 
-            position: [-1.2, 0.8, 0] as [number, number, number], 
-            color: '#ffffff', 
-            radius: isSpaceFilling ? 0.9 : 0.6,
-            atomType: 'hydrogen'
-          },
-          { 
-            position: [1.2, 0.8, 0] as [number, number, number], 
-            color: '#ffffff', 
-            radius: isSpaceFilling ? 0.9 : 0.6,
-            atomType: 'hydrogen'
-          },
+          { position: [0, 0, 0], color: '#ff4757', radius: isSpaceFilling ? 1.4 : 0.9, atomType: 'oxygen' },
+          { position: [-1.2, 0.8, 0], color: '#ffffff', radius: isSpaceFilling ? 0.9 : 0.6, atomType: 'hydrogen' },
+          { position: [1.2, 0.8, 0], color: '#ffffff', radius: isSpaceFilling ? 0.9 : 0.6, atomType: 'hydrogen' },
         ],
         bonds: isSpaceFilling ? [] : [
-          { 
-            start: [0, 0, 0] as [number, number, number], 
-            end: [-1.2, 0.8, 0] as [number, number, number],
-            bondType: 'single' as const
-          },
-          { 
-            start: [0, 0, 0] as [number, number, number], 
-            end: [1.2, 0.8, 0] as [number, number, number],
-            bondType: 'single' as const
-          },
+          { start: [0, 0, 0], end: [-1.2, 0.8, 0], bondType: 'single' },
+          { start: [0, 0, 0], end: [1.2, 0.8, 0], bondType: 'single' },
         ],
         orbitals: []
       };
     }
-
-    const atoms = [];
-    const bonds = [];
-    const orbitals = [];
+    
+    // FIX: Explicitly typed the arrays to prevent implicit 'any' types.
+    const atoms: AtomData[] = [];
+    const bonds: BondData[] = []; // Although unused for single atoms, it's good practice.
+    const orbitals: OrbitalData[] = [];
     
     atoms.push({
-      position: [0, 0, 0] as [number, number, number],
+      position: [0, 0, 0],
       color: '#ff6b6b',
       radius: isSpaceFilling ? 0.8 : 0.6,
-      atomType: 'nucleus' as const
+      atomType: 'nucleus'
     });
 
     const electronShells = [
@@ -413,10 +422,10 @@ const Scene: React.FC<SceneProps> = ({ selectedElement, viewMode, controlsRef, o
           const z = Math.sin(tilt) * shell.radius;
           
           atoms.push({
-            position: [x, y, z] as [number, number, number],
+            position: [x, y, z],
             color: shell.color,
             radius: 0.25,
-            atomType: 'electron' as const
+            atomType: 'electron'
           });
         }
       }
@@ -525,7 +534,6 @@ const MoleculeViewer: React.FC<MoleculeViewerProps> = ({ selectedElement }) => {
   const threeSceneRef = useRef<THREE.Scene | null>(null);
   const exportMenuRef = useRef<HTMLDivElement>(null);
   
-  // Close export menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (exportMenuRef.current && !exportMenuRef.current.contains(event.target as Node)) {
@@ -550,16 +558,21 @@ const MoleculeViewer: React.FC<MoleculeViewerProps> = ({ selectedElement }) => {
   };
 
   const exportScene = (format: 'gltf' | 'obj' | 'png') => {
-    setShowExportMenu(false); // Close menu after selection
+    setShowExportMenu(false); 
     
-    if (!threeSceneRef.current) return;
+    const canvas = document.querySelector('canvas');
+    if (!threeSceneRef.current || !canvas) {
+      console.error("Scene or canvas not ready for export.");
+      return;
+    }
 
     switch (format) {
       case 'gltf': {
         const exporter = new GLTFExporter();
+        // FIX: Explicitly typed the `gltf` parameter in the callback.
         exporter.parse(
           threeSceneRef.current,
-          (gltf) => {
+          (gltf: object) => { // gltf can be object or ArrayBuffer
             const output = JSON.stringify(gltf, null, 2);
             const blob = new Blob([output], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
@@ -568,6 +581,9 @@ const MoleculeViewer: React.FC<MoleculeViewerProps> = ({ selectedElement }) => {
             link.download = 'molecule.gltf';
             link.click();
             URL.revokeObjectURL(url);
+          },
+          (error) => {
+            console.error('An error happened during GLTF export:', error);
           },
           { binary: false }
         );
@@ -586,13 +602,16 @@ const MoleculeViewer: React.FC<MoleculeViewerProps> = ({ selectedElement }) => {
         break;
       }
       case 'png': {
-        const canvas = document.querySelector('canvas');
-        if (canvas) {
-          const link = document.createElement('a');
-          link.href = canvas.toDataURL('image/png');
-          link.download = 'molecule.png';
-          link.click();
-        }
+        const link = document.createElement('a');
+        // Ensure the scene is rendered before capturing
+        canvas.toBlob((blob) => {
+          if (blob) {
+            link.href = URL.createObjectURL(blob);
+            link.download = 'molecule.png';
+            link.click();
+            URL.revokeObjectURL(link.href);
+          }
+        });
         break;
       }
     }
@@ -691,6 +710,8 @@ const MoleculeViewer: React.FC<MoleculeViewerProps> = ({ selectedElement }) => {
           antialias: true, 
           alpha: true,
           powerPreference: "high-performance",
+          // preserveDrawingBuffer is needed for toDataURL/toBlob to work correctly for screenshots
+          preserveDrawingBuffer: true,
           stencil: false,
           depth: true
         }}

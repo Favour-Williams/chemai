@@ -328,7 +328,7 @@ const PeriodicTableElement: React.FC = () => {
       const textResponse = await elevenLabsService.generateElementConversation(
         selectedElement.symbol,
         selectedElement.name,
-        transcript
+        // transcript
       );
       
       // Add AI text response to conversation
