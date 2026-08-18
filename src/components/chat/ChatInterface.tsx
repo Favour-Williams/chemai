@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Loader2, Mic, MicOff, Copy, Trash2, Share2, Download, MessageSquare, Plus, X, Moon, Sun, MoreVertical, Volume2, VolumeX, Zap, ZapOff, Settings } from 'lucide-react';
+import { Send, Loader2, Mic, MicOff, Copy, Trash2, Share2, MessageSquare, Plus, X, Volume2, VolumeX, Zap, Settings } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { useSettingsStore } from '../../store/settingsStore';
 import { chatService } from '../../services/chatService';
@@ -65,13 +65,13 @@ const ChatInterface: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [audioLevel, setAudioLevel] = useState(0);
   const [copySuccess, setCopySuccess] = useState<string | null>(null);
-  const [showChatMenu, setShowChatMenu] = useState<string | null>(null);
   const [showSettings, setShowSettings] = useState(false);
   const [conversations, setConversations] = useState<ChatConversation[]>([]);
   const [activeConversation, setActiveConversation] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [voiceEnabled, setVoiceEnabled] = useState(false);
-  const { isDark } = useSettingsStore();
+  const theme = useSettingsStore((state) => state.theme);
+  const isDark = theme.mode === 'dark';
   const { success, info, error } = useToast();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -268,6 +268,7 @@ const ChatInterface: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isO
       setIsSpeaking(false);
     }
   };
+  if (!isOpen) return null;
 
   return (
     <div className={`fixed inset-0 z-50 ${isDark ? 'bg-gray-900' : 'bg-gray-100'}`}>
