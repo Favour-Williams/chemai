@@ -114,10 +114,9 @@ export class OpenRouterProvider implements LLMProvider {
 export class GroqProvider implements LLMProvider {
   name = "Groq";
   models = [
-    "llama3-8b-8192",
-    "llama3-70b-8192",
-    "gemma2-9b-it",
-    "mixtral-8x7b-32768",
+    "openai/gpt-oss-120b",
+    "openai/gpt-oss-20b",
+    "qwen/qwen3.6-27b",
   ];
 
   async generate(messages: any[], model: string, maxTokens: number = 1000) {
